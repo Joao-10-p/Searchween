@@ -1,0 +1,228 @@
+/* ===== Cores do tema ===== */
+:root {
+    --fundo: #0e0816;
+    --fundo-cartao: #1a1126;
+    --laranja: #ff7a18;
+    --roxo: #8e44ad;
+    --texto: #f1e9f7;
+    --texto-suave: #b9a8c9;
+    --verde: #7CFC5A;
+    --vermelho: #ff4d5e;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    font-family: 'Nunito', sans-serif;
+    color: var(--texto);
+    background:
+        radial-gradient(circle at 50% 0%, rgba(142, 68, 173, 0.35), transparent 55%),
+        radial-gradient(circle at 50% 100%, rgba(255, 122, 24, 0.18), transparent 50%),
+        var(--fundo);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px;
+    overflow-x: hidden;
+}
+
+/* ===== Cabeçalho ===== */
+header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.abobora {
+    font-size: 4rem;
+    animation: balancar 3s ease-in-out infinite;
+}
+
+h1 {
+    font-family: 'Creepster', cursive;
+    font-size: clamp(2.8rem, 10vw, 4.5rem);
+    letter-spacing: 4px;
+    color: var(--laranja);
+    text-shadow: 0 0 12px rgba(255, 122, 24, 0.7), 0 0 30px rgba(255, 122, 24, 0.4);
+}
+
+h3 {
+    font-weight: 400;
+    color: var(--texto-suave);
+    margin-top: 4px;
+}
+
+/* ===== Cartão principal ===== */
+main {
+    width: 100%;
+    max-width: 480px;
+}
+
+.cartao {
+    background: var(--fundo-cartao);
+    border: 2px solid var(--roxo);
+    border-radius: 18px;
+    padding: 28px 24px;
+    box-shadow: 0 0 25px rgba(142, 68, 173, 0.45);
+}
+
+h2 {
+    font-size: 1.3rem;
+    margin-bottom: 18px;
+    text-align: center;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--texto-suave);
+    font-weight: 700;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    font-size: 1rem;
+    font-family: inherit;
+    color: var(--texto);
+    background: #120a1c;
+    border: 2px solid #3d2a52;
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input::placeholder {
+    color: #6f5f80;
+}
+
+input:focus {
+    border-color: var(--laranja);
+    box-shadow: 0 0 10px rgba(255, 122, 24, 0.5);
+}
+
+button {
+    width: 100%;
+    margin-top: 14px;
+    padding: 14px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    font-family: inherit;
+    color: #1a0d00;
+    background: linear-gradient(135deg, var(--laranja), #ffa31a);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(255, 122, 24, 0.5);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+/* ===== Resultado da pesquisa ===== */
+#resultado {
+    margin-top: 22px;
+}
+
+.resultado {
+    padding: 14px 16px;
+    border-radius: 12px;
+    margin-top: 10px;
+    border-left: 6px solid;
+    animation: aparecer 0.35s ease;
+}
+
+.resultado strong {
+    display: block;
+    font-size: 1.05rem;
+}
+
+.resultado span {
+    font-size: 0.92rem;
+    color: var(--texto-suave);
+}
+
+.confirmado {
+    background: rgba(124, 252, 90, 0.1);
+    border-color: var(--verde);
+}
+
+.confirmado strong {
+    color: var(--verde);
+}
+
+.pendente {
+    background: rgba(255, 122, 24, 0.1);
+    border-color: var(--laranja);
+}
+
+.pendente strong {
+    color: var(--laranja);
+}
+
+.nao-encontrado,
+.erro {
+    background: rgba(255, 77, 94, 0.1);
+    border-color: var(--vermelho);
+}
+
+.nao-encontrado strong,
+.erro strong {
+    color: var(--vermelho);
+}
+
+/* ===== Rodapé ===== */
+footer {
+    margin-top: 28px;
+    color: var(--texto-suave);
+}
+
+/* ===== Morcegos ===== */
+.bat {
+    position: fixed;
+    font-size: 2rem;
+    opacity: 0.8;
+    pointer-events: none;
+    z-index: 0;
+    animation: voar linear infinite;
+}
+
+.bat-1 { top: 12%; animation-duration: 18s; }
+.bat-2 { top: 35%; animation-duration: 26s; animation-delay: -9s; font-size: 1.5rem; }
+.bat-3 { top: 70%; animation-duration: 22s; animation-delay: -4s; font-size: 2.4rem; }
+
+header, main, footer {
+    position: relative;
+    z-index: 1;
+}
+
+/* ===== Animações ===== */
+@keyframes balancar {
+    0%, 100% { transform: rotate(-6deg); }
+    50%      { transform: rotate(6deg); }
+}
+
+@keyframes voar {
+    from { left: -80px; transform: translateY(0); }
+    50%  { transform: translateY(-30px); }
+    to   { left: 105vw; transform: translateY(0); }
+}
+
+@keyframes aparecer {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .bat, .abobora { animation: none; }
+}

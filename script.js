@@ -141,8 +141,7 @@ const convidados = [
     { nome: 'Larissa pintor', pago: true },
     { nome: 'Ingrid', pago: true },
     { nome: 'Léo cresta', pago: true },
-    { nome: 'Bruno p', pago: true },
-
+];
 // ====== ELEMENTOS DA PÁGINA ======
 const form = document.getElementById('form-busca');
 const inputNome = document.getElementById('name');

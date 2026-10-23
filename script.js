@@ -291,7 +291,7 @@ form.addEventListener('submit', (evento) => {
 
     const encontrados = confirmados
         .filter((nome) => normalizar(nome).includes(busca))
-        .slice(0, 5);
+        .slice(0, 7);
 
     if (encontrados.length === 0) {
         mostrarCards([{

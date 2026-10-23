@@ -1,12 +1,41 @@
-/* ===== Cores do tema ===== */
+/* ===== Cores do tema (padrão: abóbora) ===== */
 :root {
     --fundo: #0e0816;
     --fundo-cartao: #1a1126;
     --laranja: #ff7a18;
+    --laranja-rgb: 255, 122, 24;
     --roxo: #8e44ad;
+    --roxo-rgb: 142, 68, 173;
+    --verde: #7CFC5A;
+    --verde-rgb: 124, 252, 90;
     --texto: #f1e9f7;
     --texto-suave: #b9a8c9;
-    --verde: #7CFC5A;
+    --campo: #120a1c;
+    --campo-borda: #3d2a52;
+    --placeholder: #7d6c90;
+    --botao-a: #ff7a18;
+    --botao-b: #ffa31a;
+    --botao-texto: #1a0d00;
+}
+
+/* ===== Tema sangue ===== */
+body[data-tema="sangue"] {
+    --fundo: #110306;
+    --fundo-cartao: #1f0a0e;
+    --laranja: #ff3b52;
+    --laranja-rgb: 255, 59, 82;
+    --roxo: #9b1020;
+    --roxo-rgb: 155, 16, 32;
+    --verde: #f5e6c8;
+    --verde-rgb: 245, 230, 200;
+    --texto: #f8e9e9;
+    --texto-suave: #cfa7aa;
+    --campo: #170509;
+    --campo-borda: #5a1520;
+    --placeholder: #8a5a60;
+    --botao-a: #d4152a;
+    --botao-b: #9e0f1e;
+    --botao-texto: #ffffff;
 }
 
 * {
@@ -20,14 +49,52 @@ body {
     font-family: 'Nunito', sans-serif;
     color: var(--texto);
     background:
-        radial-gradient(circle at 50% 0%, rgba(142, 68, 173, 0.35), transparent 55%),
-        radial-gradient(circle at 50% 100%, rgba(255, 122, 24, 0.18), transparent 50%),
+        radial-gradient(circle at 50% 0%, rgba(var(--roxo-rgb), 0.35), transparent 55%),
+        radial-gradient(circle at 50% 100%, rgba(var(--laranja-rgb), 0.18), transparent 50%),
         var(--fundo);
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 24px 16px;
     overflow-x: hidden;
+    transition: background-color 0.4s;
+}
+
+/* ===== Botões de opções (som e tema) ===== */
+.controles {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.btn-controle {
+    width: auto;
+    margin-top: 0;
+    padding: 9px 16px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    font-family: inherit;
+    color: var(--texto);
+    background: var(--fundo-cartao);
+    border: 2px solid var(--roxo);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+}
+
+.btn-controle:hover {
+    transform: translateY(-2px);
+    border-color: var(--laranja);
+    box-shadow: 0 4px 14px rgba(var(--laranja-rgb), 0.4);
+}
+
+.btn-controle[aria-pressed="true"] {
+    border-color: var(--laranja);
+    box-shadow: 0 0 12px rgba(var(--laranja-rgb), 0.45);
 }
 
 /* ===== Cabeçalho ===== */
@@ -46,7 +113,7 @@ h1 {
     font-size: clamp(2.8rem, 10vw, 4.5rem);
     letter-spacing: 4px;
     color: var(--laranja);
-    text-shadow: 0 0 12px rgba(255, 122, 24, 0.7), 0 0 30px rgba(255, 122, 24, 0.4);
+    text-shadow: 0 0 12px rgba(var(--laranja-rgb), 0.7), 0 0 30px rgba(var(--laranja-rgb), 0.4);
 }
 
 h3 {
@@ -66,7 +133,7 @@ main {
     border: 2px solid var(--roxo);
     border-radius: 18px;
     padding: 28px 24px;
-    box-shadow: 0 0 25px rgba(142, 68, 173, 0.45);
+    box-shadow: 0 0 25px rgba(var(--roxo-rgb), 0.45);
 }
 
 h2 {
@@ -88,44 +155,49 @@ input {
     font-size: 1rem;
     font-family: inherit;
     color: var(--texto);
-    background: #120a1c;
-    border: 2px solid #3d2a52;
+    background: var(--campo);
+    border: 2px solid var(--campo-borda);
     border-radius: 10px;
     outline: none;
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 input::placeholder {
-    color: #6f5f80;
+    color: var(--placeholder);
 }
 
 input:focus {
     border-color: var(--laranja);
-    box-shadow: 0 0 10px rgba(255, 122, 24, 0.5);
+    box-shadow: 0 0 10px rgba(var(--laranja-rgb), 0.5);
 }
 
-button {
+.btn-pesquisar {
     width: 100%;
     margin-top: 14px;
     padding: 14px;
     font-size: 1.05rem;
     font-weight: 700;
     font-family: inherit;
-    color: #1a0d00;
-    background: linear-gradient(135deg, var(--laranja), #ffa31a);
+    color: var(--botao-texto);
+    background: linear-gradient(135deg, var(--botao-a), var(--botao-b));
     border: none;
     border-radius: 10px;
     cursor: pointer;
     transition: transform 0.15s, box-shadow 0.15s;
 }
 
-button:hover {
+.btn-pesquisar:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(255, 122, 24, 0.5);
+    box-shadow: 0 6px 18px rgba(var(--laranja-rgb), 0.5);
 }
 
-button:active {
+.btn-pesquisar:active {
     transform: translateY(0);
+}
+
+button:focus-visible {
+    outline: 3px solid var(--texto);
+    outline-offset: 2px;
 }
 
 /* ===== Resultado da pesquisa ===== */
@@ -144,15 +216,18 @@ button:active {
 .resultado strong {
     display: block;
     font-size: 1.05rem;
+    min-height: 1.4em;
 }
 
 .resultado span {
+    display: block;
     font-size: 0.92rem;
     color: var(--texto-suave);
+    min-height: 1.3em;
 }
 
 .confirmado {
-    background: rgba(124, 252, 90, 0.1);
+    background: rgba(var(--verde-rgb), 0.1);
     border-color: var(--verde);
 }
 
@@ -161,12 +236,19 @@ button:active {
 }
 
 .sem-resultado {
-    background: rgba(142, 68, 173, 0.15);
+    background: rgba(var(--roxo-rgb), 0.18);
     border-color: var(--roxo);
 }
 
 .sem-resultado strong {
     color: var(--texto);
+}
+
+/* Cursor piscando enquanto o texto é "digitado" */
+.digitando::after {
+    content: "▌";
+    margin-left: 2px;
+    animation: piscar 0.7s steps(1) infinite;
 }
 
 /* ===== Rodapé ===== */
@@ -194,6 +276,50 @@ header, main, footer {
     z-index: 1;
 }
 
+/* ===== Sangue escorrendo no topo (só no tema sangue) ===== */
+body[data-tema="sangue"]::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 44px;
+    z-index: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 18px 30px, #b3121f 10px, transparent 11px) 0 0 / 76px 44px repeat-x,
+        radial-gradient(circle at 54px 24px, #8f0e19 7px, transparent 8px) 0 0 / 76px 44px repeat-x,
+        linear-gradient(#b3121f, #b3121f) 0 0 / 100% 20px no-repeat;
+    box-shadow: 0 6px 20px rgba(179, 18, 31, 0.5);
+}
+
+/* ===== Chuva de confete / caveirinhas ===== */
+.chuva {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.confete,
+.caveira {
+    position: absolute;
+    top: -40px;
+    will-change: transform;
+    animation: cair linear forwards;
+}
+
+.confete {
+    border-radius: 2px;
+}
+
+@keyframes cair {
+    to {
+        transform: translate3d(var(--deriva), 110vh, 0) rotate(var(--giro));
+    }
+}
+
 /* ===== Animações ===== */
 @keyframes balancar {
     0%, 100% { transform: rotate(-6deg); }
@@ -211,6 +337,12 @@ header, main, footer {
     to   { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes piscar {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0; }
+}
+
 @media (prefers-reduced-motion: reduce) {
-    .bat, .abobora { animation: none; }
+    .bat, .abobora, .digitando::after { animation: none; }
+    .chuva { display: none; }
 }

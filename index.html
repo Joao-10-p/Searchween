@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
     <!-- Morcegos decorativos -->
@@ -15,8 +15,14 @@
     <span class="bat bat-2" aria-hidden="true">🦇</span>
     <span class="bat bat-3" aria-hidden="true">🦇</span>
 
+    <!-- Botões de opções -->
+    <div class="controles">
+        <button type="button" id="btn-efeito" class="btn-controle" aria-pressed="true">✨ Efeitos: ligados</button>
+        <button type="button" id="btn-tema" class="btn-controle" aria-pressed="false">🩸 Tema sangue</button>
+    </div>
+
     <header>
-        <div class="abobora" aria-hidden="true">🎃</div>
+        <div class="abobora" id="icone-topo" aria-hidden="true">🎃</div>
         <h1>SEARCHWEEN</h1>
         <h3>Pesquise por confirmados da festa</h3>
     </header>
@@ -28,7 +34,7 @@
             <form id="form-busca">
                 <label for="name">Insira o nome aqui:</label>
                 <input type="text" id="name" placeholder="Ex: João Silva" autocomplete="off" required>
-                <button type="submit">🔍 Pesquisar</button>
+                <button type="submit" class="btn-pesquisar">🔍 Pesquisar</button>
             </form>
 
             <!-- O JS vai cuidar desta área -->
@@ -37,9 +43,9 @@
     </main>
 
     <footer>
-        <h3>🕸️ Feliz Halloween! 🕸️</h3>
+        <p>🕸️ Feliz Halloween! 🕸️</p>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="./JS/script.js"></script>
 </body>
 </html>

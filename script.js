@@ -179,7 +179,7 @@ form.addEventListener('submit', (evento) => {
         resultado.innerHTML = mostrar(
             'sem-resultado',
             '💀 Nome não encontrado',
-            'Esse nome não consta na lista de confirmados. Confirme se o nome esta certo.'
+            'Nem os fantasmas te encontraram... fale com o organizador!'
         );
         return;
     }

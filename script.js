@@ -1,4 +1,6 @@
 // ====== LISTA DE CONFIRMADOS ======
+// Coloque aqui SOMENTE quem já pagou, um nome por linha entre aspas simples.
+// Toda linha termina com vírgula.
 const confirmados = [
     'Alice Piffer',
 'Alicia Piaia',
@@ -144,24 +146,140 @@ const confirmados = [
 const form = document.getElementById('form-busca');
 const inputNome = document.getElementById('name');
 const resultado = document.getElementById('resultado');
+const btnEfeito = document.getElementById('btn-efeito');
+const btnTema = document.getElementById('btn-tema');
+const iconeTopo = document.getElementById('icone-topo');
 
-// Remove acentos e maiúsculas: "JOAO" encontra "João"
+// ====== PREFERÊNCIAS (lembradas no navegador) ======
+let efeitosLigados = true;
+let temaSangue = false;
+
+function lerPreferencia(chave) {
+    try { return localStorage.getItem(chave); } catch (e) { return null; }
+}
+function salvarPreferencia(chave, valor) {
+    try { localStorage.setItem(chave, valor); } catch (e) { /* sem problema */ }
+}
+
+// ====== TEXTOS ======
 function normalizar(texto) {
+    // Remove acentos e maiúsculas: "JOAO" encontra "João"
     return texto.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
 }
 
-// Evita que texto digitado vire HTML
-function escapar(texto) {
-    const div = document.createElement('div');
-    div.textContent = texto;
-    return div.innerHTML;
+function iconeTema() {
+    return temaSangue ? '🩸' : '🎃';
 }
 
-function mostrar(classe, titulo, detalhe = '') {
-    return `<div class="resultado ${classe}">
-                <strong>${titulo}</strong>
-                ${detalhe ? `<span>${detalhe}</span>` : ''}
-            </div>`;
+// ====== TEMA (abóbora / sangue) ======
+function aplicarTema() {
+    document.body.dataset.tema = temaSangue ? 'sangue' : 'abobora';
+    iconeTopo.textContent = temaSangue ? '💀' : '🎃';
+    btnTema.textContent = temaSangue ? '🎃 Tema abóbora' : '🩸 Tema sangue';
+    btnTema.setAttribute('aria-pressed', String(temaSangue));
+}
+
+btnTema.addEventListener('click', () => {
+    temaSangue = !temaSangue;
+    salvarPreferencia('searchween-tema', temaSangue ? 'sangue' : 'abobora');
+    aplicarTema();
+});
+
+// ====== EFEITOS (confete laranja / caveirinhas) ======
+function aplicarEfeito() {
+    btnEfeito.textContent = efeitosLigados ? '✨ Efeitos: ligados' : '✨ Efeitos: desligados';
+    btnEfeito.setAttribute('aria-pressed', String(efeitosLigados));
+}
+
+btnEfeito.addEventListener('click', () => {
+    efeitosLigados = !efeitosLigados;
+    salvarPreferencia('searchween-efeitos', efeitosLigados ? 'ligados' : 'desligados');
+    aplicarEfeito();
+    if (efeitosLigados) chover(); // mostra o efeito para a pessoa ver que voltou
+});
+
+const coresConfete = ['#ff7a18', '#ffa31a', '#ff9a3c', '#ffb347', '#e8590c'];
+const sorteio = (min, max) => min + Math.random() * (max - min);
+
+function chover() {
+    if (!efeitosLigados) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const chuva = document.createElement('div');
+    chuva.className = 'chuva';
+    chuva.setAttribute('aria-hidden', 'true');
+
+    const quantidade = temaSangue ? 26 : 45; // caveiras são maiores, então menos peças
+    let maiorDuracao = 0;
+
+    for (let i = 0; i < quantidade; i++) {
+        const peca = document.createElement('span');
+        const duracao = sorteio(2.2, 4.2);
+        const atraso = sorteio(0, 1.2);
+        maiorDuracao = Math.max(maiorDuracao, duracao + atraso);
+
+        if (temaSangue) {
+            peca.className = 'caveira';
+            peca.textContent = '💀';
+            peca.style.fontSize = `${sorteio(20, 34)}px`;
+        } else {
+            peca.className = 'confete';
+            peca.style.width = `${sorteio(6, 11)}px`;
+            peca.style.height = `${sorteio(10, 18)}px`;
+            peca.style.background = coresConfete[Math.floor(Math.random() * coresConfete.length)];
+        }
+
+        peca.style.left = `${sorteio(0, 100)}%`;
+        peca.style.animationDuration = `${duracao}s`;
+        peca.style.animationDelay = `${atraso}s`;
+        peca.style.setProperty('--deriva', `${sorteio(-80, 80)}px`);
+        peca.style.setProperty('--giro', `${sorteio(-540, 540)}deg`);
+        chuva.appendChild(peca);
+    }
+
+    document.body.appendChild(chuva);
+    setTimeout(() => chuva.remove(), (maiorDuracao + 0.3) * 1000);
+}
+
+// ====== EFEITO DE DIGITAÇÃO ======
+const reduzirMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let digitacaoAtual = 0; // se uma nova pesquisa começar, a digitação antiga para
+
+const esperar = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+async function digitar(elemento, texto, id, velocidade) {
+    if (reduzirMovimento) {
+        elemento.textContent = texto;
+        return true;
+    }
+    elemento.classList.add('digitando');
+    for (const letra of texto) {
+        if (id !== digitacaoAtual) return false;
+        elemento.textContent += letra;
+        await esperar(velocidade);
+    }
+    elemento.classList.remove('digitando');
+    return true;
+}
+
+// Mostra os cards um por vez, "escrevendo" o texto
+async function mostrarCards(lista) {
+    const id = ++digitacaoAtual;
+    resultado.innerHTML = '';
+    resultado.setAttribute('aria-busy', 'true');
+
+    for (const item of lista) {
+        const card = document.createElement('div');
+        card.className = `resultado ${item.classe}`;
+        const titulo = document.createElement('strong');
+        const detalhe = document.createElement('span');
+        card.append(titulo, detalhe);
+        resultado.appendChild(card);
+
+        if (!(await digitar(titulo, item.titulo, id, 45))) return;
+        if (!(await digitar(detalhe, item.detalhe, id, 20))) return;
+    }
+    resultado.setAttribute('aria-busy', 'false');
 }
 
 // ====== PESQUISA ======
@@ -176,15 +294,24 @@ form.addEventListener('submit', (evento) => {
         .slice(0, 5);
 
     if (encontrados.length === 0) {
-        resultado.innerHTML = mostrar(
-            'sem-resultado',
-            '💀 Nome não encontrado',
-            'Nem os fantasmas te encontraram... fale com o organizador!'
-        );
+        mostrarCards([{
+            classe: 'sem-resultado',
+            titulo: '💀 Nome não encontrado',
+            detalhe: 'Esse nome não consta na lista de confirmados.',
+        }]);
         return;
     }
 
-    resultado.innerHTML = encontrados.map((nome) =>
-        mostrar('confirmado', `🎃 ${escapar(nome)}`, 'Confirmado!')
-    ).join('');
+    chover();
+    mostrarCards(encontrados.map((nome) => ({
+        classe: 'confirmado',
+        titulo: `${iconeTema()} ${nome}`,
+        detalhe: 'Confirmado!',
+    })));
 });
+
+// ====== INÍCIO: recupera o que a pessoa escolheu da última vez ======
+temaSangue = lerPreferencia('searchween-tema') === 'sangue';
+efeitosLigados = lerPreferencia('searchween-efeitos') !== 'desligados';
+aplicarTema();
+aplicarEfeito();

@@ -7,7 +7,6 @@
     --texto: #f1e9f7;
     --texto-suave: #b9a8c9;
     --verde: #7CFC5A;
-    --vermelho: #ff4d5e;
 }
 
 * {
@@ -161,24 +160,13 @@ button:active {
     color: var(--verde);
 }
 
-.pendente {
-    background: rgba(255, 122, 24, 0.1);
-    border-color: var(--laranja);
+.sem-resultado {
+    background: rgba(142, 68, 173, 0.15);
+    border-color: var(--roxo);
 }
 
-.pendente strong {
-    color: var(--laranja);
-}
-
-.nao-encontrado,
-.erro {
-    background: rgba(255, 77, 94, 0.1);
-    border-color: var(--vermelho);
-}
-
-.nao-encontrado strong,
-.erro strong {
-    color: var(--vermelho);
+.sem-resultado strong {
+    color: var(--texto);
 }
 
 /* ===== Rodapé ===== */

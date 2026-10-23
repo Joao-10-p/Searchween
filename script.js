@@ -297,7 +297,7 @@ form.addEventListener('submit', (evento) => {
         mostrarCards([{
             classe: 'sem-resultado',
             titulo: '💀 Nome não encontrado',
-            detalhe: 'Esse nome não consta na lista de confirmados.',
+            detalhe: 'Nem os fantasmas te encontraram... fale com o organizador!',
         }]);
         return;
     }
